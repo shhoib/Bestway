@@ -42,5 +42,5 @@ cd server
 npm install
 
 # Run the backend project
-npm start
+npm test
 
