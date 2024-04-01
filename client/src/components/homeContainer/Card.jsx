@@ -4,18 +4,18 @@ import { IoMdClose } from "react-icons/io";
 import { MdOutlineDelete } from "react-icons/md";
 import { FiPlus } from "react-icons/fi";
 import {useDispatch} from 'react-redux'
-import { addNewList,deleteOldList } from "../../Redux/CardSlice";
+import { addNewList,deleteCard,deleteOldList } from "../../Redux/CardSlice";
 import {useDrop} from 'react-dnd'
 import { socket } from "../../socket";
 import Tasks from "./Tasks";
 
 
 const Card = ({card,setInputData,inputData}) => {
+
     const [showAddCardInput, setShowAddCardInput] = useState(false);
-    // console.log('card compoment rendering');
     const dispatch = useDispatch();
 
-    const [, dropRef] = useDrop({
+    const [{isOver}, dropRef] = useDrop({
         accept: 'pet',
         drop: (task)=> {
           socket.emit('change:task:toServer',{task:task.task, card, exCardId :task.cardId})
@@ -40,7 +40,7 @@ const Card = ({card,setInputData,inputData}) => {
 
       const handleChangeTask = useCallback((data)=>{
         if(data.card.id == data.exCardId){
-          return window.alert('you cant put it to the same List')
+          return;
         }
         dispatch(addNewList({id:data.card.id, inputData:data.task.task}))
         dispatch(deleteOldList({taskID:data.task.taskID}))
@@ -54,14 +54,19 @@ const Card = ({card,setInputData,inputData}) => {
             socket.off('change:task',handleChangeTask);
         }
       },[handleChangeTask])
-      
-  return (
-    <div className="bg-neutral-900 rounded-xl px-4 py-3 min-w-[27%] max-w-[295px]">
-            <h2 className="font-bold flex items-center justify-between">{card.heading} <MdOutlineDelete/></h2>
 
-            <div ref={dropRef} className="min-h-[35px]">
+      const handleDeleteCard = useCallback(()=>{
+        dispatch((deleteCard({cardID:card.id})))
+      },[card, dispatch])
+      // console.log(card);
+  return (
+    <div className="bg-neutral-900 rounded-xl px-4 py-3 mt-2 lg:w-[400px] lg:ml-2 ">
+            <h2 className="font-bold flex items-center justify-between">{card.heading.length > 20 ? `${card.heading.substring(0, 20)}..` : card.heading}
+ <MdOutlineDelete onClick={handleDeleteCard} className="cursor-pointer"/></h2>
+
+            <div ref={dropRef} className={`${isOver ? 'bg-lime-950 ease-in duration-300 p-2':null} min-h-[35px] rounded`}>
              {card.tasks.map((task,i)=>(
-              <Tasks task={task} cardId={card.id} key={i}/>
+              <Tasks task={task} cardId={card.id} isOver={isOver} key={i}/>
               ))
             } 
            </div>

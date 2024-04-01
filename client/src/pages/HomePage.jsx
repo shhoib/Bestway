@@ -9,7 +9,7 @@ const HomePage = () => {
     <div className="flex">
       <Sidebar/>
 
-      <div className="w-5/6">
+      <div className="w-full lg:w-5/6 ">
         <Navbar/>
 
         <DndProvider backend={HTML5Backend}>

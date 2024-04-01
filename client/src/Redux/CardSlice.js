@@ -49,12 +49,14 @@ export const cardSlice = createSlice({
             const {id,inputData} = action.payload;
                 const index = state.findIndex(item => item.id === id);
                 if (index !== -1) {
-                    state[index].tasks.push({
-                        taskID: Math.floor(Math.random() * 1000) + 1,
-                        task :inputData
-                    });
-                
-            }
+                    const existingTask = state[index].tasks.find(task => task.task === inputData);
+                    if (!existingTask) {
+                        state[index].tasks.push({
+                            taskID: Math.floor(Math.random() * 1000) + 1,
+                            task: inputData
+                        });
+                    }
+                }
             // console.log('added');
         },
         deleteOldList : (state,action)=>{
@@ -63,10 +65,14 @@ export const cardSlice = createSlice({
                 item.tasks = item.tasks.filter(task => task.taskID !== taskID);
             });
             // console.log('deleted');
+        },
+        deleteCard : (state,action)=>{
+            const {cardID} = action.payload
+            return state.filter(card => card.id !== cardID);
         }
     }
 });
 
 
-export const {addNewCard, addNewList, deleteOldList} = cardSlice.actions;
+export const {addNewCard, addNewList, deleteOldList,deleteCard} = cardSlice.actions;
 export default cardSlice.reducer;
