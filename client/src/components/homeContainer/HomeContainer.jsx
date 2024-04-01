@@ -41,14 +41,14 @@ const HomeContainer = () => {
 
       <div className="md:flex items-start  justify-around w-full p-3 flex-wrap">
       
-      <div className=" lg:flex lg:w-3/4 flex-wrap ">
+      <div className=" lg:flex lg:w-4/5 flex-wrap ">
       {
         cards.map((card)=>(
           <Card card={card} inputData={inputData} setInputData={setInputData} draggable  key={card.id}/>
         ))
       }
       </div>
-      <div className=" bg-purple-500 px-3 py-2 rounded-lg flex flex-col items-center mt-2 w-1/2 lg:w-1/4">
+      <div className=" bg-purple-500 px-3 py-2 rounded-lg flex flex-col items-center mt-2 w-1/2 lg:w-1/5">
         <div className="flex items-center justify-between w-full gap-3 ">
         <h6 className=" font-semibold text-sm ">Add Another List</h6>
         <div className=" bg-neutral-900 rounded-full cursor-pointer" onClick={handleShowInput}><FiPlus/></div>  

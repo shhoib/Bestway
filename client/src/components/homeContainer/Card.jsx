@@ -60,9 +60,9 @@ const Card = ({card,setInputData,inputData}) => {
       },[card, dispatch])
       // console.log(card);
   return (
-    <div className="bg-neutral-900 rounded-xl px-4 py-3 mt-2 lg:w-[400px] lg:ml-2 ">
+    <div className="bg-neutral-900 rounded-xl px-4 py-3 mt-2 lg:w-[280px] lg:ml-2 h-max">
             <h2 className="font-bold flex items-center justify-between">{card.heading.length > 20 ? `${card.heading.substring(0, 20)}..` : card.heading}
- <MdOutlineDelete onClick={handleDeleteCard} className="cursor-pointer"/></h2>
+       <MdOutlineDelete onClick={handleDeleteCard} className="cursor-pointer"/></h2>
 
             <div ref={dropRef} className={`${isOver ? 'bg-lime-950 ease-in duration-300 p-2':null} min-h-[35px] rounded`}>
              {card.tasks.map((task,i)=>(
